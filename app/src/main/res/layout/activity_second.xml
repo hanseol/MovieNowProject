@@ -31,7 +31,6 @@
                 android:layout_width="165dp"
                 android:layout_height="match_parent"
                 android:id="@+id/poster"
-                android:src="@drawable/poster_ex"
                 android:padding="10dp"/>
 
             <LinearLayout

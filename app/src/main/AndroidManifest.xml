@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA"></uses-permission>
     <uses-permission android:name="android.permission.READ_OWNER_DATA"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <activity android:name=".SecondActivity"/>
+            <activity android:name=".SecondFutureActivity"/>
             <activity android:name=".LoginActivity"/>
             <activity android:name=".SignUpActivity"/>
             <activity android:name=".ChangeRefActivity" />
@@ -27,8 +30,7 @@
             <activity android:name=".withdrawActivity"/>
             <activity android:name=".checkPasswordActivity" />
             <activity android:name=".changePasswordActivity"/>
-            <activity android:name=".SecondActivity"/>
-            <activity android:name=".SecondFutureActivity"/>
+
         </activity>
     </application>
 

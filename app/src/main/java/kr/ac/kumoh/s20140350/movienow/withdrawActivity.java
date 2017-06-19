@@ -40,7 +40,7 @@ public class withdrawActivity extends AppCompatActivity implements View.OnClickL
 
     private void Withdrawal()
     {
-        final String userID=SharedPrefManager.getInstance(this).getUserID();
+        final String userID= SharedPrefManager.getInstance(this).getUserID();
         progressDialog.setMessage("잠시만 기다려 주세요..");
         progressDialog.show();
         StringRequest stringRequest= new StringRequest(Request.Method.POST,

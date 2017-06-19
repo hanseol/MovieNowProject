@@ -231,7 +231,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
         else
         {
-            tempUserToken=SharedPrefManager.getInstance(getApplicationContext()).getToken();
+            tempUserToken= SharedPrefManager.getInstance(getApplicationContext()).getToken();
         }
         final String userToken=tempUserToken;
         final String userID=editTextUsername.getText().toString().trim();

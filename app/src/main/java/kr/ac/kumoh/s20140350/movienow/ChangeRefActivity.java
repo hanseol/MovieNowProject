@@ -27,7 +27,7 @@ import java.util.Vector;
 
 public class ChangeRefActivity extends AppCompatActivity implements View.OnClickListener {
 
-    final String userID=SharedPrefManager.getInstance(this).getUserID();
+    final String userID= SharedPrefManager.getInstance(this).getUserID();
 
     private Button changePrefReqButton;
 

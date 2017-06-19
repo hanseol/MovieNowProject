@@ -39,5 +39,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void nofityUser(String from, String notification) {
         MoonaNotificationManager moonaNotificationManager=new MoonaNotificationManager(getApplicationContext());
         moonaNotificationManager.showNotification(from, notification, new Intent(getApplicationContext(), FirstActivity.class));
+
     }
 }

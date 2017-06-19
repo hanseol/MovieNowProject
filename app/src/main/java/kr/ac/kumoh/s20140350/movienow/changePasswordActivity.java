@@ -76,7 +76,7 @@ public class changePasswordActivity extends AppCompatActivity implements View.On
         }
 
         progressDialog.show();
-        final String userID=SharedPrefManager.getInstance(this).getUserID();
+        final String userID= SharedPrefManager.getInstance(this).getUserID();
         final String userPW=password.getText().toString().trim();
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST,

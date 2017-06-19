@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +41,8 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,8 +55,9 @@ import static kr.ac.kumoh.s20140350.movienow.R.drawable.marker;
  */
 
 public class TimeTableFragment extends Fragment implements AdapterView.OnItemClickListener{
+
     static String URL = "http://202.31.200.123/moona/";
-    protected ArrayList<TheaterInfoTest> mArray = new ArrayList<TheaterInfoTest>();
+    protected ArrayList<TheaterInfo> mArray = new ArrayList<TheaterInfo>();
 
     public static final String THEATERTAG = "TheaterTag";
     protected JSONObject mResult =null;
@@ -66,8 +68,11 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
     protected ImageLoader mImageLoader = null;
 
     ArrayList <String> address = new ArrayList<String>();
+    private int[] getDistance;
     String getMovieName;
     String getMovieGenre;
+    double[] longitude;
+    double[] latitude;
 
     public TimeTableFragment() {
         // Required empty public constructor
@@ -77,9 +82,12 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
 
         View v =inflater.inflate(R.layout.fragment_timetable,container, false);
 
-        getMovieName=getArguments().getString("name");
-        address= getArguments().getStringArrayList("address");
+        getMovieName=getArguments().getString("Name");
         getMovieGenre=getArguments().getString("Genre");
+        getDistance = getArguments().getIntArray("Distance");
+        address= getArguments().getStringArrayList("Address");
+        longitude = getArguments().getDoubleArray("Long");
+        latitude = getArguments().getDoubleArray("Lati");
 
         mAdapter = new TheaterAdapter(getActivity(), R.layout.timetable_item, mArray);
 
@@ -95,7 +103,8 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
         mImageLoader = new ImageLoader(mQueue,
                 new LruBitmapCache(LruBitmapCache.getCacheSize(getActivity())));
 
-        requestTheater(getMovieName);
+        for(int test=0;test<address.size();test++)
+            requestTheater(test);
 
         return v;
 
@@ -107,81 +116,88 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
 
     }
 
-    protected void requestTheater(String n) {
+    protected void requestTheater(int testing) {
+        final int tt = testing;
+        String url = "";
+        try {
+            Log.i("MyLog", "TimeTableFragment :" +testing +"="+ address.get(testing));
 
-        String url = URL + "TestTime.php";
+            url = URL + "TheaterToTime.php?addr="
+                    + URLEncoder.encode(address.get(testing), "utf-8") + "&name=" +
+                    URLEncoder.encode(getMovieName, "utf-8");
+        } catch (Exception e) {
+        }
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         mResult = response;
-                        drawList();
+                        drawList(tt);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "서버 에러", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), "서버 에러", Toast.LENGTH_LONG).show();
                     }
                 }
         );
+
         jsObjRequest.setTag(THEATERTAG);
         mQueue.add(jsObjRequest);
     }
 
-    public void drawList(){
-        mArray.clear();
-        try{
-            JSONArray jsonMainMode = mResult.getJSONArray("list");
 
-            for(int i = 0; i < jsonMainMode.length(); i++){
-                JSONObject jsonChildNode = jsonMainMode.getJSONObject(i);
+    public ArrayList<TheaterInfo> drawList(int Test){
+        try {
+            JSONArray jsonMainMode = mResult.getJSONArray("list");
+            final int numberOfItemsInResp = jsonMainMode.length();
+
+            for (int j = 0; j < numberOfItemsInResp; j++) {
+                JSONObject jsonChildNode = jsonMainMode.getJSONObject(j);
 
                 String time = jsonChildNode.getString("time");
-                String distance = jsonChildNode.getString("distance");
-                String theater = jsonChildNode.getString("theater");
-                String branch = jsonChildNode.getString("branch");
-                Log.i("MyLog",branch);
-
-                mArray.add(new TheaterInfoTest(time,branch,theater,distance));
+                String url = jsonChildNode.getString("reservation_url");
+                String theater = jsonChildNode.getString("theater_no");
+                Log.i("MyLog","drawList(1) : "+Test +"="+theater);
+                mArray.add(new TheaterInfo(time, url, theater));
             }
-        } catch (JSONException | NullPointerException e){
-            Toast.makeText(getContext(), "Error" + e.toString(),Toast.LENGTH_LONG).show();
+        } catch (JSONException | NullPointerException e) {
+            Toast.makeText(getContext(), "Error" + e.toString(), Toast.LENGTH_LONG).show();
             mResult = null;
         }
-
         mAdapter.notifyDataSetChanged();
+        return mArray;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        TheaterInfoTest item = (TheaterInfoTest) parent.getItemAtPosition(position);
+        TheaterInfo item = (TheaterInfo) parent.getItemAtPosition(position);
 
-        String theaterImg = item.getTheater();
-        String branchStr = item.getBranch();
+        String urlStr = item.getUrl();
 
         Bundle args = new Bundle();
-        args.putString("theater",theaterImg);
-        args.putString("branch",branchStr);
         args.putString("recommend_genre",getMovieGenre);
+        args.putString("url",urlStr);
+        args.putDoubleArray("Long",longitude);
+        args.putDoubleArray("Lati",latitude);
 
-        MyAlertDialogFragment newDialogFragment = MyAlertDialogFragment.newInstance("","");
+        MyAlertDialogFragment newDialogFragment = MyAlertDialogFragment.newInstance("");
         newDialogFragment.setArguments(args);
         newDialogFragment.show(getActivity().getFragmentManager(), "dialog");
     }
 
     public static class MyAlertDialogFragment extends DialogFragment {
 
-        public static MyAlertDialogFragment newInstance(String s, String s2) {
+        public static MyAlertDialogFragment newInstance(String s) {
             MyAlertDialogFragment frag = new MyAlertDialogFragment();
             return frag;
         }
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-
             return new AlertDialog.Builder(getActivity())
                     .setIcon(marker)
                     .setTitle("선택하세요")
@@ -189,104 +205,27 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
                     .setPositiveButton("예매할래요", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.i("MyLog", "예매 버튼이 눌림");
+                            //Log.i("MyLog", "예매 버튼이 눌림");
                             String genre = getArguments().getString("recommend_genre");
-                            String theater = getArguments().getString("theater");
+                            String url = getArguments().getString("url");
+
                             if(genre.contains(",")){
                                 int idx = genre.indexOf(",");
                                 genre = genre.substring(0,idx);
                             }
-                            Log.i("MyLog",genre);
                             updateReservation(genre);
 
-                            switch(theater){
-                                case "images/cgv.png" :
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cgv.co.kr/ticket/")));
-                                    break;
-                                case "images/lotte.png":
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.lottecinema.co.kr/LCHS/Contents/ticketing/ticketing.aspx")));
-                                    break;
-                                case "images/megabox.png":
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.megabox.co.kr/?show=booking&p=step1")));
-                                    break;
-                            }
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+url)));
+                            getActivity().finish();
                         }
                     })
                     .setNegativeButton("길 안내 해주세요", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i("MyLog", "길안내 버튼이 눌림");
-                            String branch = getArguments().getString("branch");
-                            String longi ;
-                            String lati;
-                            switch(branch){
-                                case "도서관" :
-                                    Log.i("MyLog","도서관");
-                                    longi = "36.145949";
-                                    lati = "128.393767";
 
-                                    Intent intent = new Intent(getActivity(),PathActivity.class);
-                                    intent.putExtra("longi",longi);
-                                    intent.putExtra("lati",lati);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                    break;
-                                case "본관":
-                                    Log.i("MyLog","본관");
-                                    longi = "36.144464";
-                                    lati = "128.392862";
-
-                                    Intent intent2 = new Intent(getActivity(),PathActivity.class);
-                                    intent2.putExtra("longi",longi);
-                                    intent2.putExtra("lati",lati);
-                                    startActivity(intent2);
-                                    getActivity().finish();
-                                    break;
-                                case "테니스장":
-                                    Log.i("MyLog","테니스장");
-                                    longi = "36.147131";
-                                    lati = "128.388339";
-
-                                    Intent intent3 = new Intent(getActivity(),PathActivity.class);
-                                    intent3.putExtra("longi",longi);
-                                    intent3.putExtra("lati",lati);
-                                    startActivity(intent3);
-                                    getActivity().finish();
-                                    break;
-                                case "오름관1동":
-                                    Log.i("MyLog","오름관1동");
-                                    longi = "36.147219";
-                                    lati = "128.391002";
-
-                                    Intent intent4 = new Intent(getActivity(),PathActivity.class);
-                                    intent4.putExtra("longi",longi);
-                                    intent4.putExtra("lati",lati);
-                                    startActivity(intent4);
-                                    getActivity().finish();
-                                    break;
-                                case "대운동장":
-                                    Log.i("MyLog","대운동장");
-                                    longi = "36.146242";
-                                    lati = "128.387590";
-
-                                    Intent intent5 = new Intent(getActivity(),PathActivity.class);
-                                    intent5.putExtra("longi",longi);
-                                    intent5.putExtra("lati",lati);
-                                    startActivity(intent5);
-                                    getActivity().finish();
-                                    break;
-                                case "학생회관":
-                                    Log.i("MyLog","학생회관");
-                                    longi = "36.144613";
-                                    lati = "128.394014";
-
-                                    Intent intent6 = new Intent(getActivity(),PathActivity.class);
-                                    intent6.putExtra("longi",longi);
-                                    intent6.putExtra("lati",lati);
-                                    startActivity(intent6);
-                                    getActivity().finish();
-                                    break;
-                            }
+//                            startActivity(new Intent(getActivity(),PathActivity.class));
+//                            getActivity().finish();
                         }
                     })
                     .create();
@@ -296,7 +235,6 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
         {//필요할 경우 매개변수 생성해도 상관 없음
             final String userID=SharedPrefManager.getInstance(getActivity()).getUserID();
             final String genreName=genre;
-
 
             StringRequest stringRequest= new StringRequest(Request.Method.POST, Constants.URL_UPDATERESERVE,
                     new Response.Listener<String>() {
@@ -356,12 +294,11 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
     static class TheaterViewHolder{
         TextView txTime;
         TextView txDistance;
-        NetworkImageView imTheater;
-        TextView txBranch;
+        ImageView imTheater;
     }
 
-    public class TheaterAdapter extends ArrayAdapter<TheaterInfoTest> {
-        public TheaterAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<TheaterInfoTest> objects) {
+    public class TheaterAdapter extends ArrayAdapter<TheaterInfo> {
+        public TheaterAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<TheaterInfo> objects) {
             super(context, resource, objects);
         }
 
@@ -376,8 +313,7 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
 
                 holder.txTime = (TextView) convertView.findViewById(R.id.time);
                 holder.txDistance = (TextView) convertView.findViewById(R.id.distance);
-                holder.imTheater = (NetworkImageView) convertView.findViewById(R.id.theater);
-                holder.txBranch = (TextView) convertView.findViewById(R.id.branch);
+                holder.imTheater = (ImageView) convertView.findViewById(R.id.theater);
 
                 convertView.setTag(holder);
             }
@@ -386,9 +322,19 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
             }
 
             holder.txTime.setText(getItem(position).getTime());
-            holder.txDistance.setText(getItem(position).getDistance());
-            holder.imTheater.setImageUrl(URL + getItem(position).getTheater(),mImageLoader);
-            holder.txBranch.setText(getItem(position).getBranch());
+
+            switch (getItem(position).getTheater().substring(0,1)){
+                case "1":
+                    holder.imTheater.setImageResource(R.drawable.cgv);
+                    break;
+                case "2":
+                    holder.imTheater.setImageResource(R.drawable.lotte);
+                    break;
+                case "3":
+                    holder.imTheater.setImageResource(R.drawable.megabox);
+                    break;
+            }
+
             return convertView;
         }
     }

@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by SEOL on 2017-04-13.
  */
@@ -45,11 +47,16 @@ public class SecondActivity extends AppCompatActivity {
     String Id ="";
     String Name = "";
     String Genre = "";
+    ArrayList <String> Address;
+    private int[] Distance;
+    private double[] Longitude;
+    private double[] Latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+        Intent intent = getIntent();
 
         Cache cache = new DiskBasedCache(this.getCacheDir(), 1024*1024);
         Network network =  new BasicNetwork(new HurlStack());
@@ -59,14 +66,22 @@ public class SecondActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout2);
         viewPager = (ViewPager) findViewById(R.id.viewPager2);
 
-        Intent intent = getIntent();
         Id = intent.getStringExtra("Id");
         Name = intent.getStringExtra("Name");
         Genre = intent.getStringExtra("Genre");
+        Address = intent.getExtras().getStringArrayList("Address");
+        Distance = intent.getIntArrayExtra("Distance");
+        Longitude = intent.getDoubleArrayExtra("long");
+        Latitude = intent.getDoubleArrayExtra("lati");
+
 
         Bundle args = new Bundle();
         args.putString("Name",Name);
         args.putString("Genre",Genre);
+        args.putStringArrayList("Address",Address);
+        args.putIntArray("Distance",Distance);
+        args.putDoubleArray("Long",Longitude);
+        args.putDoubleArray("Lati",Latitude);
 
         Bundle args2 = new Bundle();
         args2.putString("Id",Id);
@@ -114,35 +129,35 @@ public class SecondActivity extends AppCompatActivity {
         try{
             JSONArray jsonMainMode = mResult.getJSONArray("list");
 
-            JSONObject jsonChildNode = jsonMainMode.getJSONObject(0);
-            String name = jsonChildNode.getString("name");
-            TextView Title = (TextView) findViewById(R.id.toolbar_title);
-            Title.setText(name);
+                JSONObject jsonChildNode = jsonMainMode.getJSONObject(0);
+                String name = jsonChildNode.getString("name");
+                TextView Title = (TextView) findViewById(R.id.toolbar_title);
+                Title.setText(name);
 
-            String genre = jsonChildNode.getString("genre");
-            TextView Genre = (TextView) findViewById(R.id.genre);
-            Genre.setText(genre);
+                String genre = jsonChildNode.getString("genre");
+                TextView Genre = (TextView) findViewById(R.id.genre);
+                Genre.setText(genre);
 
-            String date = jsonChildNode.getString("r_date");
-            TextView Date = (TextView) findViewById(R.id.date);
+                String date = jsonChildNode.getString("r_date");
+                TextView Date = (TextView) findViewById(R.id.date);
 
-            switch (date.substring(7, 10)) {
-                //-00이 들어가면 예정으로 변경
-                case "-00":
-                    Date.setText(date.replace("-00", " 예정"));
-                    break;
-                default:
-                    Date.setText(date);
-                    break;
-            }
+                switch (date.substring(7, 10)) {
+                    //-00이 들어가면 예정으로 변경
+                    case "-00":
+                        Date.setText(date.replace("-00", " 예정"));
+                        break;
+                    default:
+                        Date.setText(date);
+                        break;
+                }
 
-            String runtime = jsonChildNode.getString("run_time");
-            TextView RunTime = (TextView) findViewById(R.id.runtime);
-            RunTime.setText(runtime);
+                String runtime = jsonChildNode.getString("run_time");
+                TextView RunTime = (TextView) findViewById(R.id.runtime);
+                RunTime.setText(runtime);
 
-            String poster = jsonChildNode.getString("thumbnail");
-            ImageView Poster = (ImageView) findViewById(R.id.poster);
-            Picasso.with(getApplicationContext())
+                String poster = jsonChildNode.getString("thumbnail");
+                ImageView Poster = (ImageView) findViewById(R.id.poster);
+                Picasso.with(getApplicationContext())
                     .load(poster) // here you resize your image to whatever width and height you like
                     .into(Poster);
 

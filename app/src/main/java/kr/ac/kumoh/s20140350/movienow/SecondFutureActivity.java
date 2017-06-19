@@ -78,57 +78,57 @@ public class SecondFutureActivity extends AppCompatActivity {
         try{
             JSONArray jsonMainMode = mResult.getJSONArray("list");
 
-            JSONObject jsonChildNode = jsonMainMode.getJSONObject(0);
+                JSONObject jsonChildNode = jsonMainMode.getJSONObject(0);
 
-            String name = jsonChildNode.getString("name");
-            TextView Title = (TextView)findViewById(R.id.toolbar_title);
-            Title.setText(name);
+                String name = jsonChildNode.getString("name");
+                TextView Title = (TextView)findViewById(R.id.toolbar_title);
+                Title.setText(name);
 
-            String genre = jsonChildNode.getString("genre");
-            TextView Genre = (TextView)findViewById(R.id.genre);
-            Genre.setText(genre);
+                String genre = jsonChildNode.getString("genre");
+                TextView Genre = (TextView)findViewById(R.id.genre);
+                Genre.setText(genre);
 
-            String date = jsonChildNode.getString("r_date");
-            TextView Date = (TextView)findViewById(R.id.date);
+                String date = jsonChildNode.getString("r_date");
+                TextView Date = (TextView)findViewById(R.id.date);
 
-            switch(date.substring(7,10)){
-                //-00이 들어가면 예정으로 변경
-                case "-00" :
-                    Date.setText(date.replace("-00"," 예정"));
-                    break;
-                default:
-                    Date.setText(date);
-                    break;
-            }
+                switch(date.substring(7,10)){
+                    //-00이 들어가면 예정으로 변경
+                    case "-00" :
+                        Date.setText(date.replace("-00"," 예정"));
+                        break;
+                    default:
+                        Date.setText(date);
+                        break;
+                }
 
-            String runtime = jsonChildNode.getString("run_time");
-            TextView RunTime = (TextView)findViewById(R.id.runtime);
-            RunTime.setText(runtime);
+                String runtime = jsonChildNode.getString("run_time");
+                TextView RunTime = (TextView)findViewById(R.id.runtime);
+                RunTime.setText(runtime);
 
-            String poster = jsonChildNode.getString("thumbnail");
-            ImageView Poster = (ImageView) findViewById(R.id.poster);
-            switch(poster){
-                case "":
-                    Poster.setImageResource(R.drawable.movie_ready);
-                    break;
-                default :
-                    Picasso.with(getApplicationContext())
-                            .load(poster) // here you resize your image to whatever width and height you like
-                            .into(Poster);
-                    break;
-            }
+                String poster = jsonChildNode.getString("thumbnail");
+                ImageView Poster = (ImageView) findViewById(R.id.poster);
+                switch(poster){
+                    case "":
+                        Poster.setImageResource(R.drawable.movie_ready);
+                        break;
+                    default :
+                        Picasso.with(getApplicationContext())
+                                .load(poster) // here you resize your image to whatever width and height you like
+                                .into(Poster);
+                        break;
+                }
 
-            String story = jsonChildNode.getString("story");
-            TextView Story = (TextView)findViewById(R.id.story);
-            Story.setText(story);
+                String story = jsonChildNode.getString("story");
+                TextView Story = (TextView)findViewById(R.id.story);
+                Story.setText(story);
 
-            String director = jsonChildNode.getString("director");
-            TextView Director = (TextView)findViewById(R.id.director);
-            Director.setText(director);
+                String director = jsonChildNode.getString("director");
+                TextView Director = (TextView)findViewById(R.id.director);
+                Director.setText(director);
 
-            String actor = jsonChildNode.getString("actor");
-            TextView Actor = (TextView)findViewById(R.id.actor);
-            Actor.setText(actor);
+                String actor = jsonChildNode.getString("actor");
+                TextView Actor = (TextView)findViewById(R.id.actor);
+                Actor.setText(actor);
 
         } catch (JSONException | NullPointerException e){
             Toast.makeText(getApplicationContext(), "Error" + e.toString(),Toast.LENGTH_LONG).show();

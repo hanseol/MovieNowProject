@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.nfc.NfcAdapter;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,9 +30,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.skp.Tmap.TMapView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,10 +54,16 @@ public class FirstActivity extends AppCompatActivity implements NavigationView.O
 
     private BackPressCloseHandler backPressCloseHandler;
 
+    TMapView tMapView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        /*mapView 생성 및 KEY등록*/
+        tMapView = new TMapView(this);
+        tMapView.setSKPMapApiKey("66bee465-d863-36c4-8740-6e3c57b359c3");
 
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -170,7 +178,7 @@ public class FirstActivity extends AppCompatActivity implements NavigationView.O
 
     private void userLogout()
     {
-        final String userID=SharedPrefManager.getInstance(this).getUserID();
+        final String userID= SharedPrefManager.getInstance(this).getUserID();
 
         StringRequest stringRequest= new StringRequest(
                 Request.Method.POST,

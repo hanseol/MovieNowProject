@@ -58,7 +58,7 @@ public class withdrawReadyActivity extends AppCompatActivity implements View.OnC
 
     private void checkPassword()
     {
-        final String userID=SharedPrefManager.getInstance(this).getUserID();
+        final String userID= SharedPrefManager.getInstance(this).getUserID();
         final String userPW=passwordText.getText().toString().trim();
         progressDialog.setMessage("잠시만 기다려 주세요..");
         progressDialog.show();

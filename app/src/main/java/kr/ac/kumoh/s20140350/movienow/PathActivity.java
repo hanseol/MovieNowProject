@@ -39,6 +39,77 @@ public class PathActivity extends AppCompatActivity implements TMapGpsManager.on
     private ArrayList<TMapPoint> pathPoints;
     private boolean drawMap = false;
 
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_path);
+//
+//        Intent intent = getIntent();
+//
+//        mapView = (LinearLayout)findViewById(R.id.mapView);
+//
+//        /*mapView 생성 및 KEY등록*/
+//        tMapView = new TMapView(this);
+//        tMapView.setSKPMapApiKey("66bee465-d863-36c4-8740-6e3c57b359c3");
+//
+//        /*mapView 설정*/
+//        tMapView.setLanguage(TMapView.LANGUAGE_KOREAN);
+//        tMapView.setIconVisibility(true);
+//        tMapView.setZoomLevel(16);
+//        tMapView.setMapType(TMapView.MAPTYPE_STANDARD);
+//        tMapView.setCompassMode(true);
+//        tMapView.setSightVisible(true);
+//        tMapView.setTrackingMode(true);
+//
+//        /*GPS 설정, 현재위치 탐색 시작*/
+//        gpsManager = new TMapGpsManager(this);
+//        gpsManager.setMinTime(1000);
+//        gpsManager.setMinDistance(5);
+//        gpsManager.setProvider(gpsManager.GPS_PROVIDER);
+//        gpsManager.OpenGps();
+//
+//        /*Overlay 설정*/
+//        //TODO : 디지털관 -> 목적지로 변경
+//        //endPoint = new TMapPoint(37.566474,126.985022);       //test, skt
+//        endPoint = new TMapPoint(36.144464,128.392862);       //test, 본관
+//        //endPoint = new TMapPoint(36.146852,128.392342);       //test, 글로벌관
+//        markerItem = new TMapMarkerItem();
+//        markerItem.setTMapPoint(endPoint);
+//        markerItem.setName("디지털관");
+//        markerItem.setVisible(TMapMarkerItem.HIDDEN);
+//        poiPin1 = BitmapFactory.decodeResource(getResources(),R.drawable.poi_dot);
+//
+//        tMapView.addMarkerItem("디지털관", markerItem);
+//
+//        pathPoints = new ArrayList<TMapPoint>();
+//
+//        arBtn = (Button)findViewById(R.id.btn4);
+//        arBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //if(!drawMap) pathPoints= drawMapPath();
+//                Intent intent = new Intent(PathActivity.this,ARViewActivity.class);
+//                int size = pathPoints.size();
+//                double[] longitude = new double[size];
+//                double[] latitude = new double[size];
+//
+//                for(int i=0;i<size;i++){
+//                    longitude[i] = pathPoints.get(i).getLongitude();
+//                    latitude[i] = pathPoints.get(i).getLatitude();
+//                }
+//                intent.putExtra("longitude",longitude);
+//                intent.putExtra("latitude",latitude);
+//                intent.putExtra("size",size);
+//
+//                startActivity(intent);
+//            }
+//        });
+//        /*출발지,도착지 아이콘 설정*/
+//        tMapView.setTMapPathIcon(poiPin1, null);
+//        mapView.addView(tMapView);
+//
+//    }
+
     /*test*/
 @Override
 protected void onCreate(Bundle savedInstanceState) {

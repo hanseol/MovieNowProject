@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kr.ac.kumoh.s20140350.movienow.PathActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/appBar"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolBar">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MOVIE NOW"
+                android:gravity="center"
+                android:textSize="13pt"
+                android:textStyle="bold|italic"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/mapView"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="400sp" />
+
+    <Button
+        android:id="@+id/btn4"
+        android:text="AR 모드로 변경"
+       android:textSize="6pt"
+        android:background="@drawable/btn_round_shape"
+        android:layout_gravity="center"
+        android:layout_width="100sp"
+        android:layout_height="38dp"
+        android:layout_marginTop="16dp"/>
+
+
+</LinearLayout>

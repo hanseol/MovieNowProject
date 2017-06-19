@@ -216,10 +216,82 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i("MyLog", "길안내 버튼이 눌림");
+                            String branch = getArguments().getString("branch");
+                            String longi ;
+                            String lati;
+                            switch(branch){
+                                case "도서관" :
+                                    Log.i("MyLog","도서관");
+                                    longi = "36.145949";
+                                    lati = "128.393767";
+
+                                    Intent intent = new Intent(getActivity(),PathActivity.class);
+                                    intent.putExtra("longi",longi);
+                                    intent.putExtra("lati",lati);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                    break;
+                                case "본관":
+                                    Log.i("MyLog","본관");
+                                    longi = "36.144464";
+                                    lati = "128.392862";
+
+                                    Intent intent2 = new Intent(getActivity(),PathActivity.class);
+                                    intent2.putExtra("longi",longi);
+                                    intent2.putExtra("lati",lati);
+                                    startActivity(intent2);
+                                    getActivity().finish();
+                                    break;
+                                case "테니스장":
+                                    Log.i("MyLog","테니스장");
+                                    longi = "36.147131";
+                                    lati = "128.388339";
+
+                                    Intent intent3 = new Intent(getActivity(),PathActivity.class);
+                                    intent3.putExtra("longi",longi);
+                                    intent3.putExtra("lati",lati);
+                                    startActivity(intent3);
+                                    getActivity().finish();
+                                    break;
+                                case "오름관1동":
+                                    Log.i("MyLog","오름관1동");
+                                    longi = "36.147219";
+                                    lati = "128.391002";
+
+                                    Intent intent4 = new Intent(getActivity(),PathActivity.class);
+                                    intent4.putExtra("longi",longi);
+                                    intent4.putExtra("lati",lati);
+                                    startActivity(intent4);
+                                    getActivity().finish();
+                                    break;
+                                case "대운동장":
+                                    Log.i("MyLog","대운동장");
+                                    longi = "36.146242";
+                                    lati = "128.387590";
+
+                                    Intent intent5 = new Intent(getActivity(),PathActivity.class);
+                                    intent5.putExtra("longi",longi);
+                                    intent5.putExtra("lati",lati);
+                                    startActivity(intent5);
+                                    getActivity().finish();
+                                    break;
+                                case "학생회관":
+                                    Log.i("MyLog","학생회관");
+                                    longi = "36.144613";
+                                    lati = "128.394014";
+
+                                    Intent intent6 = new Intent(getActivity(),PathActivity.class);
+                                    intent6.putExtra("longi",longi);
+                                    intent6.putExtra("lati",lati);
+                                    startActivity(intent6);
+                                    getActivity().finish();
+                                    break;
+                            }
                         }
                     })
                     .create();
         }
+
         private void updateReservation(String genre)
         {//필요할 경우 매개변수 생성해도 상관 없음
             final String userID=SharedPrefManager.getInstance(getActivity()).getUserID();

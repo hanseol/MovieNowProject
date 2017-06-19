@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="20:00"
+            android:textColor="#000000"
+            android:id="@+id/time"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="854m"
+            android:textColor="#000000"
+            android:id="@+id/distance"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:orientation="vertical">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/theater"
+                android:layout_width="80dp"
+                android:src="@drawable/megabox_ex"
+                android:layout_height="23.5dp"/>
+
+            <TextView
+                android:id="@+id/branch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="구미 강동" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

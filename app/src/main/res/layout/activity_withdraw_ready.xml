@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="#6b6b6b"
+    android:id="@+id/linearLayout2"
+    tools:context="kr.ac.kumoh.s20140350.movienow.checkPasswordActivity">
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:text="상영시간 확인부터 길안내까지"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="7pt"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimaryDark"/>
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18pt"
+        android:textStyle="bold|italic"
+        android:textColor="?attr/colorPrimaryDark"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="본인 확인을 위한 비밀번호를 입력하세요"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_box_bg">
+    <requestFocus/>
+    </EditText>
+
+    <Button
+        android:id="@+id/passCheckButton"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="확인"
+        android:background="@drawable/btn_shape_yellow"/>
+
+    </LinearLayout>

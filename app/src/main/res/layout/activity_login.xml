@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#6b6b6b">
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:text="상영시간 확인부터 길안내까지"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="7pt"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimaryDark"/>
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18pt"
+        android:textStyle="bold|italic"
+        android:textColor="?attr/colorPrimaryDark"
+        android:layout_marginBottom="16dp"/>
+
+
+
+    <EditText
+        android:id="@+id/UserName"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:hint="아이디"
+        android:background="@drawable/edit_box_bg"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:id="@+id/Password"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:ems="10"
+        android:hint="비밀번호"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_box_bg"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/LoginRequest"
+        android:text="로그인"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_shape_yellow"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/changeSignup"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_shape_yellow"
+        android:gravity="center"
+        android:text="회원가입" />
+
+</LinearLayout>

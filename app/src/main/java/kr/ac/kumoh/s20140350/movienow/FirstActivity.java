@@ -1,0 +1,187 @@
+package kr.ac.kumoh.s20140350.movienow;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class FirstActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    ViewPagerAdapter viewPagerAdapter;
+
+    private ProgressDialog progressDialog;
+
+    private BackPressCloseHandler backPressCloseHandler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_first);
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        NowFragment Now = new NowFragment();
+        viewPagerAdapter.addFragments(Now,"현재상영작");
+
+        OrderFragment Order = new OrderFragment();
+        viewPagerAdapter.addFragments(Order,"평점순");
+
+        viewPagerAdapter.addFragments(new FutureFragment(),"개봉예정작");
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("잠시만 기다려 주세요....");
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        View headerView = LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView, false);
+        navigationView.addHeaderView(headerView);
+        TextView userInfo = (TextView)headerView.findViewById(R.id.userID);
+
+        //로그인 되어있을 경우
+        if (SharedPrefManager.getInstance(this).isLoggedIn()) {
+
+            userInfo.setText(SharedPrefManager.getInstance(this).getUserID()+"님 환영합니다");
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.navigation_with_logout);
+
+        }
+        else {
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.navigation_with_login);
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            backPressCloseHandler.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_login) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else if (id == R.id.nav_signup) {
+            startActivity(new Intent(this, SignUpActivity.class));
+            finish();
+        } else if (id == R.id.nav_change_ref) {
+            startActivity(new Intent(this, ChangeRefActivity.class));
+            finish();
+        } else if (id == R.id.nav_change_password) {
+            startActivity(new Intent(this, checkPasswordActivity.class));
+            finish();
+        } else if (id == R.id.nav_unsign) {
+            startActivity(new Intent(this, withdrawReadyActivity.class));
+            finish();
+        } else if (id == R.id.nav_logout) {
+            userLogout();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void userLogout()
+    {
+        final String userID=SharedPrefManager.getInstance(this).getUserID();
+
+        StringRequest stringRequest= new StringRequest(
+                Request.Method.POST,
+                Constants.URL_LOGOUT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try
+                        {
+                            JSONObject obj=new JSONObject(response);
+                            //응답으로 넘어온 데이터 값 중 success field의 값을 비교해서
+                            if(obj.getBoolean("success"))//성공했으면
+                            {
+                                SharedPrefManager.getInstance(getApplicationContext()).logout();
+                                Toast.makeText(getApplicationContext(), "정상적으로 로그아웃되었습니다", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), FirstActivity.class));
+                                finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "로그아웃에 문제가 생겼습니다. 다시 시도해 보세요", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch(JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.hide();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                })//parameter list end
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params=new HashMap<>();
+                //만약 php에서 문제가 생기면 이 변수와 제대로 짝을 맞추었는지 확인할 것
+                params.put("userID", userID);
+                return params;
+            }
+        };
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+}

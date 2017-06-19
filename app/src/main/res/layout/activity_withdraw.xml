@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:id="@+id/linearLayout3"
+    tools:context="kr.ac.kumoh.s20140350.movienow.checkPasswordActivity"
+    android:background="#6b6b6b">
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:text="상영시간 확인부터 길안내까지"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="7pt"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimaryDark"/>
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18pt"
+        android:textStyle="bold|italic"
+        android:textColor="?attr/colorPrimaryDark"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="정말로 탈퇴하겠습니까? 모든 정보가 사라집니다"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <Button
+        android:id="@+id/OK"
+        android:text="탈퇴"
+        android:background="@drawable/btn_shape_yellow"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"/>
+
+    <Button
+        android:id="@+id/Cancel"
+        android:background="@drawable/btn_shape_yellow"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="취소" />
+</LinearLayout>
+

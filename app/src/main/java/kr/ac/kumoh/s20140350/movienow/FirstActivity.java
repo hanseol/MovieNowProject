@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class FirstActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Toolbar toolbar;
@@ -213,6 +216,47 @@ public class FirstActivity extends AppCompatActivity implements NavigationView.O
             }
         };
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //앱이 실행될 때 NFC 어댑터 활성화
+        mResumed = true;
+        //앱이 꺼져있을 때 찍으면 실행
+        // nfc 태깅에 의해서 앱이 실행 될때 이부분 수행
+        Log.e("nfctag", "onResume");
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            changeModeNormalSilent();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        //앱이 종료될 때 NFC 어댑터를 비활성화
+        super.onPause();
+        Log.e("nfctag", "onPause");
+        mResumed = false;
+        mNfcAdapter.disableForegroundNdefPush(this);
+    }
+
+    private void changeModeNormalSilent()
+    {
+
+        AudioManager am;
+        am=(AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        switch (am.getRingerMode())
+        {
+            //벨소리거나 무음 모드로 변환
+            case AudioManager.RINGER_MODE_NORMAL:
+                Toast.makeText(getApplicationContext(), "무음 모드로 변경되었습니다", Toast.LENGTH_SHORT).show();
+                am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                break;
+            case AudioManager.RINGER_MODE_SILENT:
+                Toast.makeText(getApplicationContext(), "소리 모드로 변경되었습니다", Toast.LENGTH_SHORT).show();
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                break;
+        }
     }
 
 }

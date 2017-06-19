@@ -7,13 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA"></uses-permission>
     <uses-permission android:name="android.permission.READ_OWNER_DATA"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-
-    <service
-        android:name=".MyFirebaseInstanceIDService">
-        <intent-filter>
-            <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-        </intent-filter>
-    </service>
+    <uses-permission android:name="android.permission.NFC"/>
 
     <application
         android:allowBackup="true"
@@ -22,23 +16,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/kr.ac.kumoh.s20140350.movienow" />
             </intent-filter>
-            <activity android:name=".SecondActivity"/>
-            <activity android:name=".SecondFutureActivity"/>
-            <activity android:name=".LoginActivity"/>
-            <activity android:name=".SignUpActivity"/>
-            <activity android:name=".ChangeRefActivity" />
-            <activity android:name=".withdrawReadyActivity" />
-            <activity android:name=".withdrawActivity"/>
-            <activity android:name=".checkPasswordActivity" />
-            <activity android:name=".changePasswordActivity"/>
 
         </activity>
+        <activity android:name=".SecondActivity"/>
+        <activity android:name=".SecondFutureActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".SignUpActivity"/>
+        <activity android:name=".ChangeRefActivity" />
+        <activity android:name=".withdrawReadyActivity" />
+        <activity android:name=".withdrawActivity"/>
+        <activity android:name=".checkPasswordActivity" />
+        <activity android:name=".changePasswordActivity"/>
+
     </application>
+
+    <service
+        android:name=".MyFirebaseInstanceIDService">
+        <intent-filter>
+            <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+        </intent-filter>
+    </service>
 
 </manifest>

@@ -31,12 +31,12 @@ public class MoonaNotificationManager {
         );
 
         NotificationCompat.Builder builder=new NotificationCompat.Builder(ctx);
-        Notification mNotification=builder.setSmallIcon(R.mipmap.ic_launcher)
+        Notification mNotification=builder.setSmallIcon(R.mipmap.my_ic_launcher)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(from)
                 .setContentText(notification)
-                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.my_ic_launcher))
                 .build();
 
         mNotification.flags |=Notification.FLAG_AUTO_CANCEL;

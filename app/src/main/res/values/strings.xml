@@ -1,4 +1,9 @@
 <resources>
+
+    <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/splash_page</item>
+    </style>
+
     <string name="app_name">MOVIE NOW</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

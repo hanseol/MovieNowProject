@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_future"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kr.ac.kumoh.s20140350.movienow.FutureFragment">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/FutureList"
+        android:fastScrollEnabled="true"
+        android:fadeScrollbars="true"
+        android:scrollbarFadeDuration = "400"
+        android:scrollbarDefaultDelayBeforeFade="200">
+    </ListView>
+
+</LinearLayout>

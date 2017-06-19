@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_login"
+            android:title="로그아웃" />
+    </group>
+
+    <item android:title="setting">
+        <menu>
+            <item
+                android:id="@+id/nav_change_password"
+                android:icon="@drawable/ic_menu_signup"
+                android:title="비밀번호 변경" />
+            <item
+                android:id="@+id/nav_change_ref"
+                android:icon="@drawable/ic_menu_ref"
+                android:title="추천장르 변경" />
+            <item
+                android:id="@+id/nav_unsign"
+                android:icon="@drawable/ic_menu_unsign"
+                android:title="탈퇴" />
+        </menu>
+    </item>
+
+</menu>

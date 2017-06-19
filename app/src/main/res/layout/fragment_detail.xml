@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fastScrollEnabled="true"
+    android:fadeScrollbars="true"
+    android:scrollbarFadeDuration = "400"
+    android:scrollbarDefaultDelayBeforeFade="200"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="줄거리"
+            android:textSize="9pt"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:textColor="#3F4234"/>
+
+        <TextView
+            android:id="@+id/story"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text=""/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="감독"
+            android:textSize="9pt"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:textColor="#3F4234"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/director"
+            android:paddingLeft="20dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="배우"
+            android:textSize="9pt"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:textColor="#3F4234"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/actor"
+            android:paddingLeft="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="20dp"
+            />
+    </LinearLayout>
+</ScrollView>

@@ -27,6 +27,8 @@
             <activity android:name=".withdrawActivity"/>
             <activity android:name=".checkPasswordActivity" />
             <activity android:name=".changePasswordActivity"/>
+            <activity android:name=".SecondActivity"/>
+            <activity android:name=".SecondFutureActivity"/>
         </activity>
     </application>
 

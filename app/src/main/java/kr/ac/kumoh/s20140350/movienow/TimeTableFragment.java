@@ -165,6 +165,7 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
         Bundle args = new Bundle();
         args.putString("theater",theaterImg);
         args.putString("branch",branchStr);
+        args.putString("recommend_genre",getMovieGenre);
 
         MyAlertDialogFragment newDialogFragment = MyAlertDialogFragment.newInstance("","");
         newDialogFragment.setArguments(args);
@@ -189,7 +190,14 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i("MyLog", "예매 버튼이 눌림");
+                            String genre = getArguments().getString("recommend_genre");
                             String theater = getArguments().getString("theater");
+                            if(genre.contains(",")){
+                                int idx = genre.indexOf(",");
+                                genre = genre.substring(0,idx);
+                            }
+                            Log.i("MyLog",genre);
+                            updateReservation(genre);
 
                             switch(theater){
                                 case "images/cgv.png" :
@@ -212,7 +220,65 @@ public class TimeTableFragment extends Fragment implements AdapterView.OnItemCli
                     })
                     .create();
         }
+        private void updateReservation(String genre)
+        {//필요할 경우 매개변수 생성해도 상관 없음
+            final String userID=SharedPrefManager.getInstance(getActivity()).getUserID();
+            final String genreName=genre;
 
+
+            StringRequest stringRequest= new StringRequest(Request.Method.POST, Constants.URL_UPDATERESERVE,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try
+                            {
+                                JSONObject obj=new JSONObject(response);
+                                //응답으로 넘어온 데이터 값 중 success field의 값을 비교해서
+                                if(obj.getBoolean("success"))//성공했으면
+                                {
+                                    Log.i("MyLog","SUCCESS");
+                                }
+                                else
+                                {
+                                    int rescode=obj.getInt("rescode");
+                                    switch (rescode){
+                                        case 1 :
+                                            Log.i("MyLog","SUCCESS");
+                                            break;
+                                        case 2:
+                                            // Toast.makeText(getActivity().getApplicationContext(), "예매 기록 업데이트 중 문제가 발생했습니다", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case 3:
+                                            // Toast.makeText(getActivity().getApplicationContext(), "예매 기록 검색 중 문제가 발생했습니다", Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+                                }
+                            }
+                            catch(JSONException e)
+                            {
+                                Log.i("MyLog","FAIL");
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            //progressDialog.hide();
+                            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })//parameter list end
+            {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params=new HashMap<>();
+                    //만약 php에서 문제가 생기면 이 변수와 제대로 짝을 맞추었는지 확인할 것
+                    params.put("userID", userID);
+                    params.put("genreName", genreName);
+                    return params;
+                }
+            };
+            RequestHandler.getInstance(getActivity()).addToRequestQueue(stringRequest);
+        }
     }
 
     static class TheaterViewHolder{

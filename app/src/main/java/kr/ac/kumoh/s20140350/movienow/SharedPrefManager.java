@@ -15,8 +15,6 @@ public class SharedPrefManager {
     private static final String KEY_USER_ID="userID";
     private static final String KEY_ACCESS_TOKEN="token";
 
-
-
     private SharedPrefManager(Context context) {
         mCtx = context;
     }

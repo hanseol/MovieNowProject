@@ -1,7 +1,13 @@
 package kr.ac.kumoh.s20140350.movienow;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -28,12 +34,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class FirstActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
+
+    NfcAdapter mNfcAdapter;
+    PendingIntent mNfcPendingIntent;
+    IntentFilter[] mNdefExchangeFilters;
+    private boolean mResumed = false;
 
     private ProgressDialog progressDialog;
 
@@ -90,6 +100,27 @@ public class FirstActivity extends AppCompatActivity implements NavigationView.O
         }
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && !notificationManager.isNotificationPolicyAccessGranted()) {
+
+            getApplicationContext().startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+        }
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        mNfcPendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        //nfc 관련 인텐트 필터 생성
+        IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndefDetected.addDataType("application/kr.ac.kumoh.s20140350.movienow");
+        } catch (IntentFilter.MalformedMimeTypeException e) { }
+        mNdefExchangeFilters = new IntentFilter[] { ndefDetected };
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 

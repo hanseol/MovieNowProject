@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "78298897156",
+    "firebase_url": "https://movienow2-e1c6c.firebaseio.com",
+    "project_id": "movienow2-e1c6c",
+    "storage_bucket": "movienow2-e1c6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78298897156:android:f24ed6a37af625ed",
+        "android_client_info": {
+          "package_name": "kr.ac.kumoh.s20140350.movienow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78298897156-amsk0ktdb9fmdaeabk80rbo5si20sc1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.ac.kumoh.s20140350.movienow",
+            "certificate_hash": "29d391a03d473ac36b5c5f3293db5b86933c23b4"
+          }
+        },
+        {
+          "client_id": "78298897156-ldkgdf8sc93j4m1mp7c3mt410pfr7np1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALeU3CSFf5MG3O_ZQje5dcyMQHNn1bR78"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78298897156-ldkgdf8sc93j4m1mp7c3mt410pfr7np1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
